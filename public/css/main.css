@@ -187,6 +187,17 @@ form {
   margin: 0 0.25rem;
 }
 
+.card__item-list{
+  height: 30px;
+  width: 100px;
+  display: flex;
+  
+}
+
+.card__item {
+  
+}
+
 .btn {
   display: inline-block;
   padding: 0.25rem 1rem;
