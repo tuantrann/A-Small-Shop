@@ -188,18 +188,28 @@ form {
 }
 
 .card__item-list{
-  height: 30px;
-  width: 100px;
+  height: 100%;
+  width: 100%;
   display: flex;
-  
+  flex-direction: column;
+  align-items: center;
 }
 
-.card__item {
-  
+.card__item{
+  width: 60%;
+  margin: 5px;
+ 
+  padding: 5px;
+  box-shadow: 0 2px 8px #a1a1a1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .btn {
-  display: inline-block;
+  
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
