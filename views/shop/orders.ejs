@@ -8,17 +8,17 @@
         <% if (orders.length <= 0) { %>
             <h1>Nothing Here</h1>
         <% } else { %>
-            <ul>
+            <ul class="orders">
                 <% orders.forEach(order => { %>
-                <li>
-                    <h1># <%= order.id %> </h1>
-                    <ul>
-                        <% order.products.forEach(product => { %>
-                            <li>
-                                <%= product.title %> (<%= product.orderItem.quantity %>)
-                            </li>
+                <li class="orders__item">
+                    <h2>Order-# <%= order._id %> </h2>
+                    <div>
+                        <% order.items.forEach(product => { %>
+                            <div class="orders__products">
+                                <%= product.title %> (<%= product.quantity %>)
+                            </div>
                         <% }); %>
-                    </ul>
+                        </div>
 
                 </li>
                 <% }); %>

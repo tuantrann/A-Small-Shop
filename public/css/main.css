@@ -235,3 +235,28 @@ form {
     display: none;
   }
 }
+
+
+.orders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.orders__item{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.orders__products{
+  width: 80%;
+  border: solid 1px;
+  border-color: #00695c;
+  margin: 1rem;
+  padding: 5px;
+  color: #00695c;
+  font-weight: bold;
+}
