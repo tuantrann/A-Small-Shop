@@ -1,0 +1,8 @@
+{
+    "extends": ["wesbos"],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    }
+}

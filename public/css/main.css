@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 main {
@@ -187,7 +187,7 @@ form {
   margin: 0 0.25rem;
 }
 
-.card__item-list{
+.card__item-list {
   height: 100%;
   width: 100%;
   display: flex;
@@ -195,10 +195,10 @@ form {
   align-items: center;
 }
 
-.card__item{
+.card__item {
   width: 60%;
   margin: 5px;
- 
+
   padding: 5px;
   box-shadow: 0 2px 8px #a1a1a1;
   display: flex;
@@ -209,7 +209,6 @@ form {
 }
 
 .btn {
-  
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
@@ -236,22 +235,20 @@ form {
   }
 }
 
-
 .orders {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
-.orders__item{
+.orders__item {
   width: 100%;
+  margin-top: 1rem;
   display: flex;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+
   flex-direction: column;
 }
 
-.orders__products{
+.orders__products {
   width: 80%;
   border: solid 1px;
   border-color: #00695c;
