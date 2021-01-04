@@ -189,7 +189,6 @@ exports.getNewPassword = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
-
 exports.postNewPassword = (req, res, next) => {
   const newPassword = req.body.password;
   const { userId } = req.body;
