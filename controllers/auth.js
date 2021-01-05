@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendGridTransport = require('nodemailer-sendgrid-transport');
+const { validationResult } = require('express-validator');
 
 const User = require('../models/user');
 
@@ -27,6 +28,11 @@ exports.getLogin = (req, res, next) => {
     path: '/login',
     pageTitle: 'Login Page',
     errorMessage: message,
+    validationErrors: [],
+    oldInput: {
+      email: '',
+      password: '',
+    },
   });
 };
 
@@ -42,17 +48,39 @@ exports.getSignUp = (req, res, next) => {
     path: '/signup',
     pageTitle: 'Sign Up',
     errorMessage: message,
+    oldInput: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationErrors: [],
   });
 };
 
 exports.postLogin = (req, res, next) => {
   const { email } = req.body;
   const { password } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      path: '/login',
+      pageTitle: 'Login Page',
+      errorMessage: errors.array()[0].msg,
+      oldInput: { email, password },
+      validationErrors: errors.array(),
+    });
+  }
+
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        req.flash('error', 'Invalid email or password.');
-        return res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          path: '/login',
+          pageTitle: 'Login Page',
+          errorMessage: 'Invalid email or password',
+          oldInput: { email, password },
+          validationErrors: [],
+        });
       }
       bcrypt
         .compare(password, user.password)
@@ -65,8 +93,13 @@ exports.postLogin = (req, res, next) => {
               res.redirect('/');
             });
           }
-          req.flash('error', 'Invalid email or password.');
-          res.redirect('/login');
+          return res.status(422).render('auth/login', {
+            path: '/login',
+            pageTitle: 'Login Page',
+            errorMessage: 'Invalid email or password',
+            oldInput: { email, password },
+            validationErrors: [],
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -79,38 +112,43 @@ exports.postLogin = (req, res, next) => {
 exports.postSignUp = (req, res, next) => {
   const { email } = req.body;
   const { password } = req.body;
-  const { confirmPassword } = req.body;
-  User.findOne({ email })
-    .then((userDoc) => {
-      if (userDoc) {
-        req.flash('error', 'Email exits, please choose another email or login');
-        return res.redirect('/signup');
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then((hashedPassword) => {
-          const user = new User({
-            email,
-            password: hashedPassword,
-            cart: { items: [] },
-          });
-          return user.save();
-        })
-        .then((result) => {
-          res.redirect('/login');
-          return transporter.sendMail({
-            to: email,
-            from: 'tuanga2699@gmail.com',
-            subject: 'Signup succedded!',
-            html: '<h1>You succesfully signed up!</h1>',
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/signup', {
+      path: '/signup',
+      pageTitle: 'Sign Up',
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email,
+        password,
+        confirmPassword: req.body.confirmPassword,
+      },
+      validationErrors: errors.array(),
+    });
+  }
 
-    .catch((err) => console.log(err));
+  bcrypt
+    .hash(password, 12)
+    .then((hashedPassword) => {
+      const user = new User({
+        email,
+        password: hashedPassword,
+        cart: { items: [] },
+      });
+      return user.save();
+    })
+    .then((result) => {
+      res.redirect('/login');
+      return transporter.sendMail({
+        to: email,
+        from: 'tuanga2699@gmail.com',
+        subject: 'Signup succedded!',
+        html: '<h1>You succesfully signed up!</h1>',
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.postLogout = (req, res, next) => {
