@@ -2,7 +2,6 @@ require('dotenv').config();
 const fs = require('fs');
 
 const stripeKey = process.env.STRIPE_KEY;
-console.log(stripeKey);
 const path = require('path');
 const PDFDocument = require('pdfkit');
 const stripe = require('stripe')(stripeKey.toString());
